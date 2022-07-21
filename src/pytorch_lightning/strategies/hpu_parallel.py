@@ -156,6 +156,9 @@ class HPUParallelStrategy(DDPStrategy):
     def checkpoint_io(self) -> CheckpointIO:
         if self._checkpoint_io is None:
             self._checkpoint_io = HPUCheckpointIO()
+        elif self._checkpoint_io.is_wrapper:
+            self._checkpoint_io.checkpoint_io = HPUCheckpointIO()
+
         return self._checkpoint_io
 
     @checkpoint_io.setter
